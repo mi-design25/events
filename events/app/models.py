@@ -8,3 +8,10 @@ class HeroSection(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to='HeroImage/')
 
+# Create Client Sponsor
+class Client(models.Model):
+    name = models.CharField(max_length=100)
+    logo = models.ImageField(upload_to='clients/')
+
+    def __str__(self):
+        return self.name
