@@ -1,0 +1,23 @@
+<!-- Section Header -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+
+            <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto me-xl-0">
+            {%load static%}
+                <img src="{% static 'assets/img/logo/logo.png' %}" alt="Logo">
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+            <ul>
+                {%load static%}
+                <li><a href="#" >Accueil</a></li>
+                <li><a href="#detailsEvents" class="active">Événements</a></li>
+            </ul>
+
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+
+            <a class="btn-getstarted" href="#footer">Contactez-nous</a>
+
+        </div>
+    </header>

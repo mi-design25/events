@@ -8,39 +8,37 @@
   </div><!-- Fin du titre de la section -->
 
   <div class="container">
-
     <div class="row gy-4">
+        {% for event in events %}
+        <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+            <article>
+                <div class="post-img">
+                    <a href="{% url 'details' event.id %}"><img src="{{ event.image.url }}" alt="{{ event.title }}" class="img-fluid"></a>
+                </div>
 
-      <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-        <article>
+                <p class="post-category">{{ event.category }}</p>
 
-          <div class="post-img">
-            {%load static%}
-            <img src="{% static 'assets/img/blog/blog-1.jpg'%}" alt="" class="img-fluid">
-          </div>
+                <h2 class="title">
+                    <a href="{% url 'details' event.id %}">{{ event.title }}</a>
+                </h2>
 
-          <p class="post-category">Politique</p>
+                <p class="description">{{ event.description_court }}</p>
 
-          <h2 class="title">
-             <a href="{% url 'details' %}">Dolorum optio tempore voluptas dignissimos</a>
-          </h2>
-
-          <div class="d-flex align-items-center">
-            {%load static%}
-            <img src="{% static 'assets/img/blog/blog-author.jpg' %}" alt="" class="img-fluid post-author-img flex-shrink-0">
-            <div class="post-meta">
-              <p class="post-author">Maria Doe</p>
-              <p class="post-date">
-                <time datetime="2022-01-01">1er janv., 2022</time>
-              </p>
-            </div>
-          </div>
-
-        </article>
-      </div><!-- Fin de l'élément de la liste des publications -->
-
-    </div><!-- Fin de la liste des publications récentes -->
-
-  </div>
+                <ul class="event-details">
+                  <li><strong>Lieu :</strong> {{ event.location }}</li>
+                  <li><strong>Date :</strong> {{ event.date }}</li>
+                  <li><strong>Capacité :</strong> {{ event.capacity }} participants</li>
+                  <li><strong>Programme :</strong></li>
+                  <ul>
+                      {% for line in event.program_lines %}
+                      <li>{{ line }}</li>
+                      {% endfor %}
+                  </ul>
+              </ul>
+            </article>
+        </div><!-- Fin de l'élément de la liste des événements -->
+        {% endfor %}
+    </div><!-- Fin de la liste des événements -->
+</div>
 
 </section><!-- /Section des publications récentes -->

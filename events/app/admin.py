@@ -5,3 +5,4 @@ from .models import *
 
 admin.site.register(HeroSection)
 admin.site.register(Client)
+admin.site.register(Event)
