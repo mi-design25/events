@@ -9,7 +9,6 @@
     <!-- Favicons -->
     {%load static%}
     <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
-    <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -26,6 +25,13 @@
     <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
     <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/aos.js' %}"></script>
+    <script src="{% static 'assets/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/js/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/script.js' %}"></script>
     
 </head> 
 <body class="index-page">
@@ -70,11 +76,24 @@
     <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
     <script src="{% static 'assets/js/main.js' %}"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/purecounterjs@1.0.6/dist/purecounter_vanilla.js"></script>
 
+    <!-- Script personalisées -->
     <script>
-        AOS.init();
+         /**
+            * Animation on scroll function and init
+        */
+        function aosInit() {
+            AOS.init({
+            duration: 600,
+            easing: 'ease-in-out',
+            once: true,
+            mirror: false
+            });
+        }
+        window.addEventListener('load', aosInit);
         const counters = document.querySelectorAll('.purecounter');
         new PureCounter({
             start: 0,
@@ -82,6 +101,16 @@
             duration: 2,
             selector: '.purecounter'
         });
+
+        /**
+        * Frequently Asked Questions Toggle
+        */
+        document.querySelectorAll('.faq-item h3, .faq-item .faq-toggle').forEach((faqItem) => {
+            faqItem.addEventListener('click', () => {
+            faqItem.parentNode.classList.toggle('faq-active');
+            });
+        });
+
     </script>
 </body>
 </html>
