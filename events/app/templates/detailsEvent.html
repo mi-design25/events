@@ -34,7 +34,7 @@
     <script src="{% static 'assets/js/script.js' %}"></script>
     
 </head> 
-<body class="index-page">
+<body class="blog-details-page">
     
     {% include 'layouts/header.html' %}
     <main class="main">
@@ -62,25 +62,55 @@
 
         <!-- Section Footer -->
         {% include 'layouts/footer.html' %}
-
-        <!-- Scroll Top -->
-        <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-        <!-- Preloader -->
-        <div id="preloader"></div>
-
+        
     </main>
 
     {%load static%}
     <!-- Vendor JS Files -->
-    <script src="{% static 'assets/js/bootstrap.bundle.min.js'%}"></script>
-    <script src="{% static 'assets/js/aos.js' %}"></script>
-    <script src="{% static 'assets/js/glightbox.min.js' %}"></script>
-    <script src="{% static 'assets/js/purecounter_vanilla.js' %}"></script>
-    <script src="{% static 'assets/js/imagesloaded.pkgd.min.js' %}"></script>
-    <script src="{% static 'assets/js/isotope.pkgd.min.js' %}"></script>
-    <script src="{% static 'assets/js/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+    <script src="{% static 'assets/vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
     <script src="{% static 'assets/js/main.js' %}"></script>
     
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/purecounterjs@1.0.6/dist/purecounter_vanilla.js"></script>
+
+    <!-- Script personalisées -->
+    <script>
+         /**
+            * Animation on scroll function and init
+        */
+        function aosInit() {
+            AOS.init({
+            duration: 600,
+            easing: 'ease-in-out',
+            once: true,
+            mirror: false
+            });
+        }
+        window.addEventListener('load', aosInit);
+        const counters = document.querySelectorAll('.purecounter');
+        new PureCounter({
+            start: 0,
+            end: 1000,
+            duration: 2,
+            selector: '.purecounter'
+        });
+
+        /**
+        * Frequently Asked Questions Toggle
+        */
+        document.querySelectorAll('.faq-item h3, .faq-item .faq-toggle').forEach((faqItem) => {
+            faqItem.addEventListener('click', () => {
+            faqItem.parentNode.classList.toggle('faq-active');
+            });
+        });
+
+    </script>
 </body>
 </html>
