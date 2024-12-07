@@ -1,0 +1,46 @@
+<!-- Section des publications récentes -->
+<section id="recent-posts" class="recent-posts section">
+
+  <!-- Titre de la section -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Listes des Evenements </h2>
+    <p>Les nécessités de ses conséquences sont en réalité la fuite de quelque chose qui semble effectivement nécessaire.</p>
+  </div><!-- Fin du titre de la section -->
+
+  <div class="container">
+
+    <div class="row gy-4">
+
+      <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <article>
+
+          <div class="post-img">
+            {%load static%}
+            <img src="{% static 'assets/img/blog/blog-1.jpg'%}" alt="" class="img-fluid">
+          </div>
+
+          <p class="post-category">Politique</p>
+
+          <h2 class="title">
+            <a href="blog-details.html">Dolorum optio tempore voluptas dignissimos</a>
+          </h2>
+
+          <div class="d-flex align-items-center">
+            {%load static%}
+            <img src="{% static 'assets/img/blog/blog-author.jpg' %}" alt="" class="img-fluid post-author-img flex-shrink-0">
+            <div class="post-meta">
+              <p class="post-author">Maria Doe</p>
+              <p class="post-date">
+                <time datetime="2022-01-01">1er janv., 2022</time>
+              </p>
+            </div>
+          </div>
+
+        </article>
+      </div><!-- Fin de l'élément de la liste des publications -->
+
+    </div><!-- Fin de la liste des publications récentes -->
+
+  </div>
+
+</section><!-- /Section des publications récentes -->
