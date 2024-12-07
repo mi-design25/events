@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from .models import HeroSection
 
-# Create your views here.
 def index(request):
-    return render(request, 'index.html')
+    hero = HeroSection.objects.first()  # Récupérer le premier enregistrement
+    return render(request, 'index.html', {'hero': hero})
 
 def details(request):
-    return render(request, 'detailsEvent.html')  # Chemin vers le template de détails
+    return render(request, 'detailsEvent.html')

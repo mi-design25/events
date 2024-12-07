@@ -1,32 +1,13 @@
 <!-- Hero Section -->
 <section id="hero" class="hero section dark-background">
-
-  {% load static %}  
-  <!-- Vérification du chemin de l'image -->
-  <img src="{% static 'assets/img/Evenements/hero-5.jpg' %}" alt="Hero Background" data-aos="fade-in" >
-
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-10">
-        <h2 data-aos="fade-up" data-aos-delay="100">Bienvenue à l'ESMIA agence</h2>
-        <p data-aos="fade-up" data-aos-delay="200">Notre agence d'événements se spécialise dans la création d'expériences mémorables et sur mesure pour chaque occasion. Que ce soit pour des conférences, des mariages, ou des lancements de produits, notre équipe dévouée combine créativité et expertise pour faire de votre événement un véritable succès. Avec une attention particulière aux détails et un service client exceptionnel, nous nous engageons à dépasser vos attentes et à réaliser vos visions. Découvrez comment nous pouvons transformer vos idées en réalité.</p>
-      </div>
-      <!-- <div class="col-lg-5" data-aos="fade-up" data-aos-delay="300">
-        <form action="forms/newsletter.php" method="post" class="php-email-form">
-          <div class="sign-up-form">
-            <input type="email" name="email" placeholder="Enter your email">
-            <input type="submit" value="Subscribe">
-          </div>
-          <div class="loading">Loading</div>
-          <div class="error-message"></div>
-          <div class="sent-message">Your subscription request has been sent. Thank you!</div>
-        </form>
-      </div> -->
+    <img src="{{ hero.image.url }}" alt="Hero Background" data-aos="fade-in">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10">
+                <h2 data-aos="fade-up" data-aos-delay="100">{{ hero.title }}</h2>
+                <p data-aos="fade-up" data-aos-delay="200">{{ hero.description }}</p>
+            </div>
+        </div>
     </div>
-  </div>
-
 </section>
-
-
-
 <!-- /Hero Section -->
