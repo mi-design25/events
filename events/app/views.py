@@ -18,3 +18,8 @@ def index(request):
 def event_details(request, id):
     event = Event.objects.get(id=id)
     return render(request, 'detailsEvent.html', {'event': event})
+
+def register(request):
+    return render(request, 'register.html')
+def login(request):
+    return render(request, 'login.html')
