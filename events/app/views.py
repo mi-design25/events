@@ -79,7 +79,9 @@ def addEvents(request):
     return render(request, 'admin/layouts/addEvents.html')
 
 def liste_evenements(request):
-    return render(request, 'admin/layouts/liste_evenements.html')
+    # Récupérer tous les événements
+    events = Event.objects.all()
+    return render(request, 'admin/layouts/liste_evenements.html', {'events': events})
 
 def liste_reservations(request):
     return render(request, 'admin/layouts/liste_reservations.html')
