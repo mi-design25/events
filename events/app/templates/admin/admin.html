@@ -91,7 +91,7 @@
                     <p class="text-center small">Entrez votre nom d'utilisateur et votre mot de passe pour vous connecter</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" action="{% url 'administrator' %}" method="POST" novalidate>
+                <form class="row g-3 needs-validation" action="{% url 'admin_login' %}" method="POST" novalidate>
   {% csrf_token %}
   <div class="col-12">
     <label for="yourUsername" class="form-label">Nom d'utilisateur</label>

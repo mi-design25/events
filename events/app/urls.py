@@ -6,8 +6,8 @@ urlpatterns = [
     # URL 
     path('event/<int:id>/', event_details, name='details'),
     path('register/', register, name='register'),
-    path('login/', login, name='login'),
-    path('admin-login/', administrator, name='administrator'),
+    path('login/', login_page, name='login'),
+    path('admin-login/', admin_login, name='admin_login'),
 ]
 
 

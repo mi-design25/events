@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import login as auth_login, authenticate
+
 from django.contrib import messages
 from .models import *
 
@@ -24,11 +26,11 @@ def event_details(request, id):
 # Function pour la page de connexion
 def register(request):
     return render(request, 'register.html')
-def login(request):
+def login_page(request):
     return render(request, 'login.html')
 
 # Function pour la page d'administrateur
-def administrator(request):
+def admin_login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -42,3 +44,4 @@ def administrator(request):
         else:
             messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
     return render(request, 'admin/admin.html')
+
