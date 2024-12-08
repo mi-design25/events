@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import login as auth_login, authenticate
+from django.shortcuts import get_object_or_404
 
 from django.contrib import messages
 from .models import *
@@ -77,6 +78,29 @@ def addEvents(request):
         return redirect('administration')  # Redirigez vers la page d'administration ou une autre page
 
     return render(request, 'admin/layouts/addEvents.html')
+
+def edit_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    
+    if request.method == 'POST':
+        event.title = request.POST.get('title')
+        event.category = request.POST.get('category')
+        event.description_court = request.POST.get('description_court')
+        event.description_longue = request.POST.get('description_longue')
+        event.location = request.POST.get('location')
+        event.date = request.POST.get('date')
+        event.capacity = request.POST.get('capacity')
+        event.program = request.POST.get('program')
+        if request.FILES.get('image'):
+            event.image = request.FILES.get('image')
+        event.save()
+        return redirect('liste_evenements')
+
+    return render(request, 'admin/layouts/edit_event.html', {'event': event})
+def delete_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    event.delete()
+    return redirect('liste_evenements')
 
 def liste_evenements(request):
     # Récupérer tous les événements
