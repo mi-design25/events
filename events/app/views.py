@@ -36,12 +36,15 @@ def admin_login(request):
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            if user.is_superuser:  # Vérifie si l'utilisateur est un administrateur
+            if user.is_superuser:
                 login(request, user)
-                return redirect('/admin/')  # Redirige vers le tableau de bord admin
+                return redirect('administration')
             else:
                 messages.error(request, "Vous n'avez pas les permissions administratives.")
         else:
             messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
     return render(request, 'admin/admin.html')
+
+def administration(request):
+    return render(request, 'admin/layouts/index.html')
 
