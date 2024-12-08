@@ -25,4 +25,4 @@ def login(request):
     return render(request, 'login.html')
 
 def administrator(request):
-    return render(request, 'admin.html')
+    return render(request, 'admin/admin.html')
