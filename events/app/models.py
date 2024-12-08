@@ -26,6 +26,5 @@ class Event(models.Model):
     program = models.TextField()
     image = models.ImageField(upload_to='Evenements/')
     
-
     def __str__(self):
         return self.title
