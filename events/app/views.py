@@ -48,3 +48,6 @@ def admin_login(request):
 def administration(request):
     return render(request, 'admin/layouts/index.html')
 
+def addEvents(request):
+    return render(request, 'admin/layouts/addEvents.html')
+
