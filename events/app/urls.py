@@ -7,7 +7,7 @@ urlpatterns = [
     path('event/<int:id>/', event_details, name='details'),
     path('register/', register, name='register'),
     path('login/', login, name='login'),
-    path('administrator/', administrator, name='administrator'),
+    path('admin-login/', administrator, name='administrator'),
 ]
 
 
