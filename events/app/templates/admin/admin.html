@@ -92,26 +92,24 @@
                   </div>
 
                 <form class="row g-3 needs-validation" action="{% url 'admin_login' %}" method="POST" novalidate>
-  {% csrf_token %}
-  <div class="col-12">
-    <label for="yourUsername" class="form-label">Nom d'utilisateur</label>
-    <div class="input-group has-validation">
-      <span class="input-group-text" id="inputGroupPrepend">@</span>
-      <input type="text" name="username" class="form-control" id="yourUsername" required>
-      <div class="invalid-feedback">Veuillez entrer votre nom d'utilisateur.</div>
-    </div>
-  </div>
-  <div class="col-12">
-    <label for="yourPassword" class="form-label">Mot de passe</label>
-    <input type="password" name="password" class="form-control" id="yourPassword" required>
-    <div class="invalid-feedback">Veuillez entrer votre mot de passe !</div>
-  </div>
-  <div class="col-12">
-    <button class="btn btn-primary w-100" type="submit">Connexion</button>
-  </div>
-</form>
-
-
+                  {% csrf_token %}
+                  <div class="col-12">
+                    <label for="yourUsername" class="form-label">Nom d'utilisateur</label>
+                    <div class="input-group has-validation">
+                      <span class="input-group-text" id="inputGroupPrepend">@</span>
+                      <input type="text" name="username" class="form-control" id="yourUsername" required>
+                      <div class="invalid-feedback">Veuillez entrer votre nom d'utilisateur.</div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <label for="yourPassword" class="form-label">Mot de passe</label>
+                    <input type="password" name="password" class="form-control" id="yourPassword" required>
+                    <div class="invalid-feedback">Veuillez entrer votre mot de passe !</div>
+                  </div>
+                  <div class="col-12">
+                    <button class="btn btn-primary w-100" type="submit">Connexion</button>
+                  </div>
+                </form>
                 </div>
               </div>
             </div>
