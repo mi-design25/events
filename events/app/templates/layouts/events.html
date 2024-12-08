@@ -18,23 +18,11 @@
 
                 <p class="post-category">{{ event.category }}</p>
 
-                <h2 class="title">
+                <h2 class="title text-justify">
                     <a href="{% url 'details' event.id %}">{{ event.title }}</a>
                 </h2>
 
-                <p class="description">{{ event.description_court }}</p>
-
-                <ul class="event-details">
-                  <li><strong>Lieu :</strong> {{ event.location }}</li>
-                  <li><strong>Date :</strong> {{ event.date }}</li>
-                  <li><strong>Capacité :</strong> {{ event.capacity }} participants</li>
-                  <li><strong>Programme :</strong></li>
-                  <ul>
-                      {% for line in event.program_lines %}
-                      <li>{{ line }}</li>
-                      {% endfor %}
-                  </ul>
-              </ul>
+                <p class="description text-justify">{{ event.description_court }}</p>
             </article>
         </div><!-- Fin de l'élément de la liste des événements -->
         {% endfor %}

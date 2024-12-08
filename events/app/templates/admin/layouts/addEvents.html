@@ -344,81 +344,81 @@
 
 
     <section class="section">
-        <div class="row">
-            <div class="col-lg-12">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ajouter des événements</h5>
 
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Ajouter des événements</h5>
-
-                        <!-- Éléments généraux du formulaire -->
-                        <form>
-                            <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Titre</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control">
-                                </div>
+                    <!-- Éléments généraux du formulaire -->
+                    <form method="POST" enctype="multipart/form-data">  <!-- Ajoutez enctype -->
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <label for="title" class="col-sm-2 col-form-label">Titre</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="title" class="form-control" required>
                             </div>
-                            <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Catégorie</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control">
-                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="category" class="col-sm-2 col-form-label">Catégorie</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="category" class="form-control" required>
                             </div>
-                            <div class="row mb-3">
-                                <label for="inputEmail" class="col-sm-2 col-form-label">Déscription court</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control">
-                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="description_court" class="col-sm-2 col-form-label">Déscription courte</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="description_court" class="form-control" required>
                             </div>
-                            <div class="row mb-3">
-                                <label for="inputPassword" class="col-sm-2 col-form-label">Déscription longue</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control">
-                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="description_longue" class="col-sm-2 col-form-label">Déscription longue</label>
+                            <div class="col-sm-10">
+                                <textarea name="description_longue" class="form-control" required></textarea>
                             </div>
-                            <div class="row mb-3">
-                                <label for="inputNumber" class="col-sm-2 col-form-label">Localisation</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control">
-                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="location" class="col-sm-2 col-form-label">Localisation</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="location" class="form-control" required>
                             </div>
-                            <div class="row mb-3">
-                                <label for="inputNumber" class="col-sm-2 col-form-label">Capacitée</label>
-                                <div class="col-sm-10">
-                                    <input type="number" class="form-control">
-                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="capacity" class="col-sm-2 col-form-label">Capacité</label>
+                            <div class="col-sm-10">
+                                <input type="number" name="capacity" class="form-control" required>
                             </div>
-                            <div class="row mb-3">
-                                <label for="inputNumber" class="col-sm-2 col-form-label">Image</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" type="file" id="formFile">
-                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="image" class="col-sm-2 col-form-label">Image</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="file" name="image" id="formFile" required>
                             </div>
-                            <div class="row mb-3">
-                                <label for="inputDate" class="col-sm-2 col-form-label">Date</label>
-                                <div class="col-sm-10">
-                                    <input type="date" class="form-control">
-                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="date" class="col-sm-2 col-form-label">Date</label>
+                            <div class="col-sm-10">
+                                <input type="date" name="date" class="form-control" required>
                             </div>
-                            <div class="row mb-3">
-                                <label for="inputPassword" class="col-sm-2 col-form-label">Programe + heure</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" style="height: 100px"></textarea>
-                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="program" class="col-sm-2 col-form-label">Programme + heure</label>
+                            <div class="col-sm-10">
+                                <textarea name="program" class="form-control" style="height: 100px" required></textarea>
                             </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label">Bouton Ajouter</label>
-                                <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Ajouter l'événements</button>
-                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label">Bouton Ajouter</label>
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Ajouter l'événement</button>
                             </div>
-                        </form><!-- Fin des éléments généraux du formulaire -->
-                    </div>
+                        </div>
+                    </form><!-- Fin des éléments généraux du formulaire -->
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
   </main><!-- End #main -->

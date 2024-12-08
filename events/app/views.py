@@ -49,5 +49,32 @@ def administration(request):
     return render(request, 'admin/layouts/index.html')
 
 def addEvents(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        category = request.POST.get('category')
+        description_court = request.POST.get('description_court')
+        description_longue = request.POST.get('description_longue')
+        location = request.POST.get('location')
+        date = request.POST.get('date')
+        capacity = request.POST.get('capacity')
+        program = request.POST.get('program')
+        image = request.FILES.get('image')  # Récupération de l'image
+
+        # Créer l'événement
+        event = Event(
+            title=title,
+            category=category,
+            description_court=description_court,
+            description_longue=description_longue,
+            location=location,
+            date=date,
+            capacity=capacity,
+            program=program,
+            image=image
+        )
+        event.save()  # Enregistrer l'événement dans la base de données
+        
+        return redirect('administration')  # Redirigez vers la page d'administration ou une autre page
+
     return render(request, 'admin/layouts/addEvents.html')
 
