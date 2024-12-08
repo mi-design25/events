@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.contrib import admin
 
 # Create model for Hero
 class HeroSection(models.Model):
@@ -45,3 +46,9 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class UserProfileInline(admin.StackedInline):
+    model = UserProfile
+    can_delete = False
+    verbose_name_plural = 'Profile'
+    fk_name = 'user'

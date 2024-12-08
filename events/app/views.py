@@ -134,7 +134,7 @@ def create_admin(request):
 
         if password != confirm_password:
             messages.error(request, "Les mots de passe ne correspondent pas.")
-            return render(request, 'create_admin.html', request.POST)
+            return render(request, 'create-admin.html', request.POST)
 
         try:
             user = User.objects.create_user(
@@ -155,7 +155,7 @@ def create_admin(request):
                 image=image,
             )
             messages.success(request, "Compte administrateur créé avec succès.")
-            return redirect('/admin/')
+            return redirect('admin/layouts/index.html')
         except Exception as e:
             messages.error(request, f"Erreur : {e}")
     return render(request, 'admin/create-admin.html')
