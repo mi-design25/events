@@ -1,0 +1,15 @@
+{% block content %}
+  <h2>Créer un compte</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+      <h3>Informations utilisateur</h3>
+      {{ user_form.as_p }}
+    </div>
+    <div>
+      <h3>Informations de profil</h3>
+      {{ profile_form.as_p }}
+    </div>
+    <button type="submit">S'inscrire</button>
+  </form>
+{% endblock %}

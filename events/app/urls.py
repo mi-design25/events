@@ -11,7 +11,7 @@ urlpatterns = [
     path('login/', login_page, name='login'),
     
     # Section page administator
-
+    path('register_admin/',  register_admin, name='register'),
     path('admin-login/', admin_login, name='admin_login'),
     path('administration/dashbord/', administration, name='administration'),
     path('administration/ajouts-evenements/', addEvents, name='addEvents'),

@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import login as auth_login, authenticate
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-
+from .forms import UserRegistrationForm, UserProfileForm  
 from django.contrib import messages
 from .models import *
 
@@ -110,3 +110,36 @@ def liste_evenements(request):
 
 def liste_reservations(request):
     return render(request, 'admin/layouts/liste_reservations.html')
+
+
+def register_admin(request):
+    # Initialiser les formulaires ici
+    user_form = UserRegistrationForm()
+    profile_form = UserProfileForm()
+
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            # Sauvegarder l'utilisateur
+            user = user_form.save(commit=False)
+            user.set_password(user_form.cleaned_data['password'])  # Utilisez cleaned_data pour obtenir le mot de passe brut
+            user.is_staff = True  # Permet à l'utilisateur d'avoir un accès admin
+            user.is_superuser = True  # Donne des droits super administrateur
+            user.save()
+
+            # Créer le profil utilisateur
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+
+            # Connecter l'utilisateur immédiatement après l'inscription
+            login(request, user)
+            messages.success(request, "Votre compte a été créé avec succès.")
+            return redirect('admin_login')  # Vous pouvez rediriger vers la page de l'administration
+
+    return render(request, 'admin/register.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
