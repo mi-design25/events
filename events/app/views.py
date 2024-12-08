@@ -1,13 +1,11 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
-from django.contrib.auth import login as auth_login, authenticate
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegistrationForm, UserProfileForm  
 from django.contrib import messages
+from .forms import UserRegistrationForm, UserProfileForm  
 from .models import *
 
-# Function pour la récuperar ou l'affichage des pages
+# Function pour afficher la page d'accueil
 def index(request):
     hero = HeroSection.objects.first()
     clients = Client.objects.all()
@@ -19,26 +17,28 @@ def index(request):
         'clients': clients,
         'events': events
     })
-    
+
 # Function pour afficher les détails d'un événement spécifique
 def event_details(request, id):
     event = Event.objects.get(id=id)
     return render(request, 'detailsEvent.html', {'event': event})
 
-# Function pour la page de connexion
+# Function pour afficher la page d'inscription
 def register(request):
     return render(request, 'register.html')
+
+# Function pour afficher la page de connexion
 def login_page(request):
     return render(request, 'login.html')
 
-# Function pour la page d'administrateur
+# Function pour gérer la connexion à l'espace administrateur
 def admin_login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            if user.is_superuser:
+            if user.is_superuser or hasattr(user, 'userprofile') and user.userprofile.is_admin:
                 login(request, user)
                 return redirect('administration')
             else:
@@ -47,9 +47,20 @@ def admin_login(request):
             messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
     return render(request, 'admin/admin.html')
 
+# Function pour afficher l'espace administrateur personnalisé
+@login_required
 def administration(request):
-    return render(request, 'admin/layouts/index.html')
+    try:
+        # Récupérer le profil de l'utilisateur connecté
+        profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        messages.warning(request, "Votre profil n'existe pas. Veuillez contacter l'administration.")
+        return redirect('register_admin')
+    
+    return render(request, 'admin/layouts/index.html', {'profile': profile})
 
+# Function pour ajouter un événement
+@login_required
 def addEvents(request):
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -76,13 +87,14 @@ def addEvents(request):
         )
         event.save()  # Enregistrer l'événement dans la base de données
         
-        return redirect('administration')  # Redirigez vers la page d'administration ou une autre page
+        return redirect('administration')  # Redirigez vers la page d'administration
 
     return render(request, 'admin/layouts/addEvents.html')
 
+# Function pour modifier un événement
+@login_required
 def edit_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
-    
     if request.method == 'POST':
         event.title = request.POST.get('title')
         event.category = request.POST.get('category')
@@ -96,24 +108,28 @@ def edit_event(request, event_id):
             event.image = request.FILES.get('image')
         event.save()
         return redirect('liste_evenements')
-
     return render(request, 'admin/layouts/edit_event.html', {'event': event})
+
+# Function pour supprimer un événement
+@login_required
 def delete_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     event.delete()
     return redirect('liste_evenements')
 
+# Function pour afficher tous les événements
+@login_required
 def liste_evenements(request):
-    # Récupérer tous les événements
     events = Event.objects.all()
     return render(request, 'admin/layouts/liste_evenements.html', {'events': events})
 
+# Function pour afficher toutes les réservations
+@login_required
 def liste_reservations(request):
     return render(request, 'admin/layouts/liste_reservations.html')
 
-
+# Function pour enregistrer un nouvel administrateur
 def register_admin(request):
-    # Initialiser les formulaires ici
     user_form = UserRegistrationForm()
     profile_form = UserProfileForm()
 
@@ -122,22 +138,19 @@ def register_admin(request):
         profile_form = UserProfileForm(request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
-            # Sauvegarder l'utilisateur
             user = user_form.save(commit=False)
-            user.set_password(user_form.cleaned_data['password'])  # Utilisez cleaned_data pour obtenir le mot de passe brut
-            user.is_staff = True  # Permet à l'utilisateur d'avoir un accès admin
-            user.is_superuser = True  # Donne des droits super administrateur
+            user.set_password(user_form.cleaned_data['password'])  # Enregistrer le mot de passe sécurisé
+            user.is_staff = True
             user.save()
 
             # Créer le profil utilisateur
             profile = profile_form.save(commit=False)
             profile.user = user
+            profile.is_admin = True  # Donne des droits administratifs spécifiques à l'utilisateur
             profile.save()
 
-            # Connecter l'utilisateur immédiatement après l'inscription
-            login(request, user)
-            messages.success(request, "Votre compte a été créé avec succès.")
-            return redirect('admin_login')  # Vous pouvez rediriger vers la page de l'administration
+            messages.success(request, "Votre compte administrateur a été créé avec succès.")
+            return redirect('admin_login')
 
     return render(request, 'admin/register.html', {
         'user_form': user_form,

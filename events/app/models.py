@@ -32,6 +32,7 @@ class Event(models.Model):
         return self.title
     
     
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     about = models.TextField(blank=True, null=True)
@@ -41,6 +42,7 @@ class UserProfile(models.Model):
     address = models.TextField(blank=True, null=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
     image = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    is_admin = models.BooleanField(default=False)  # Indique si c'est un admin pour son propre espace
 
     def __str__(self):
         return f"{self.user.username} Profile"

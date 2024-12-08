@@ -8,33 +8,37 @@ admin.site.register(Client)
 admin.site.register(Event)
 
 # Définir l'admin pour UserProfile
+# Définir l'admin pour UserProfile
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'company', 'post', 'country', 'phone', 'image')  # Champs à afficher dans la liste
+    list_display = ('user', 'company', 'post', 'country', 'phone', 'image')  # Champs à afficher
     list_filter = ('country', 'company')  # Permet de filtrer par certains champs
-    search_fields = ('user__username', 'user__email', 'company')  # Permet de rechercher par certains champs
+    search_fields = ('user__username', 'user__email', 'company')  # Permet de rechercher
     fieldsets = (
         (None, {
             'fields': ('user', 'about', 'company', 'post', 'country', 'address', 'phone', 'image')
         }),
     )
+    list_per_page = 10  # Pagination
+    ordering = ('user__username',)  # Tri par nom d'utilisateur
 
+# Enregistrement de l'admin pour UserProfile
 admin.site.register(UserProfile, UserProfileAdmin)
 
-# Inline pour afficher UserProfile dans la page de l'utilisateur
+# Inline pour afficher UserProfile dans la page utilisateur
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
     verbose_name_plural = 'Profile'
     fk_name = 'user'
 
-# Personnaliser l'admin de User pour inclure UserProfile
+# Personnalisation de l'admin de User pour inclure UserProfile
 class CustomUserAdmin(UserAdmin):
-    inlines = (UserProfileInline,)  # Afficher le UserProfile dans la page de l'utilisateur
-
-    # Personnalisation de l'affichage des utilisateurs
+    inlines = (UserProfileInline,)  # Associer UserProfile à User
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_superuser', 'date_joined')
     search_fields = ('username', 'email', 'first_name', 'last_name')
+    list_filter = ('is_staff', 'is_superuser', 'is_active')
+    ordering = ('-date_joined',)  # Tri par date d'inscription
 
-# Enregistrer la modification de l'admin de User
+# Désenregistrer et réenregistrer le modèle User avec la nouvelle configuration
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
