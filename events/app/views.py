@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserRegistrationForm, UserProfileForm  
@@ -156,3 +156,12 @@ def register_admin(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
+
+# Function pour déconnecter l'utilisateur
+
+def logout_view(request):
+    # Déconnecter l'utilisateur
+    logout(request)
+    
+    # Rediriger l'utilisateur vers la page d'accueil ou une autre page après la déconnexion
+    return redirect('admin_login')

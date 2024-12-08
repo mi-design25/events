@@ -12,6 +12,7 @@ urlpatterns = [
     
     # Section page administator
     path('register_admin/',  register_admin, name='register'),
+     path('logout/', logout_view, name='logout'),  # Ajoute cette ligne
     path('admin-login/', admin_login, name='admin_login'),
     path('administration/dashbord/', administration, name='administration'),
     path('administration/ajouts-evenements/', addEvents, name='addEvents'),
