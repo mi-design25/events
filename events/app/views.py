@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import login as auth_login, authenticate
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 from .models import *
@@ -109,3 +110,52 @@ def liste_evenements(request):
 
 def liste_reservations(request):
     return render(request, 'admin/layouts/liste_reservations.html')
+
+
+@login_required
+def create_admin(request):
+    if not request.user.is_superuser:
+        messages.error(request, "Vous n'avez pas la permission de créer un administrateur.")
+        return redirect('/')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        about = request.POST.get('about')
+        full_name = request.POST.get('full_name')
+        company = request.POST.get('company')
+        job = request.POST.get('job')
+        country = request.POST.get('country')
+        address = request.POST.get('address')
+        phone = request.POST.get('phone')
+        image = request.FILES.get('image')
+
+        if password != confirm_password:
+            messages.error(request, "Les mots de passe ne correspondent pas.")
+            return render(request, 'create_admin.html', request.POST)
+
+        try:
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password,
+                is_staff=True,
+                is_superuser=True,
+            )
+            UserProfile.objects.create(
+                user=user,
+                about=about,
+                company=company,
+                job=job,
+                country=country,
+                address=address,
+                phone=phone,
+                image=image,
+            )
+            messages.success(request, "Compte administrateur créé avec succès.")
+            return redirect('/admin/')
+        except Exception as e:
+            messages.error(request, f"Erreur : {e}")
+    return render(request, 'admin/create-admin.html')
