@@ -41,8 +41,7 @@ class UserProfile(models.Model):
     country = models.CharField(max_length=100, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
-    image = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
-    is_admin = models.BooleanField(default=False)  # Indique si c'est un admin pour son propre espace
-
+    image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    is_admin = models.BooleanField(default=False)
     def __str__(self):
         return f"{self.user.username} Profile"
