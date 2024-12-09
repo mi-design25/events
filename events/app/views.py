@@ -66,11 +66,11 @@ def addEvents(request):
         date = request.POST.get('date')
         capacity = request.POST.get('capacity')
         program = request.POST.get('program')
-        image = request.FILES.get('image')  # Récupération de l'image
+        image = request.FILES.get('image')
 
         # Créer l'événement en l'associant à l'utilisateur connecté
         event = Event(
-            user=request.user,  # Associer l'utilisateur connecté
+            user=request.user,
             title=title,
             category=category,
             description_court=description_court,
@@ -81,9 +81,9 @@ def addEvents(request):
             program=program,
             image=image
         )
-        event.save()  # Enregistrer l'événement dans la base de données
+        event.save() 
         
-        return redirect('administration')  # Redirigez vers la page d'administration
+        return redirect('administration')
 
     return render(request, 'admin/layouts/addEvents.html')
 
@@ -116,7 +116,6 @@ def delete_event(request, event_id):
 # Function pour afficher tous les événements
 @login_required
 def liste_evenements(request):
-    # Filtrer les événements par utilisateur connecté
     events = Event.objects.filter(user=request.user)
     return render(request, 'admin/layouts/liste_evenements.html', {'events': events})
 
@@ -136,14 +135,14 @@ def register_admin(request):
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save(commit=False)
-            user.set_password(user_form.cleaned_data['password'])  # Enregistrer le mot de passe sécurisé
+            user.set_password(user_form.cleaned_data['password'])
             user.is_staff = True
             user.save()
 
             # Créer le profil utilisateur
             profile = profile_form.save(commit=False)
             profile.user = user
-            profile.is_admin = True  # Donne des droits administratifs spécifiques à l'utilisateur
+            profile.is_admin = True 
             profile.save()
 
             messages.success(request, "Votre compte administrateur a été créé avec succès.")
@@ -155,12 +154,9 @@ def register_admin(request):
     })
 
 # Function pour déconnecter l'utilisateur
-
 def logout_view(request):
     # Déconnecter l'utilisateur
     logout(request)
-    
-    # Rediriger l'utilisateur vers la page d'accueil ou une autre page après la déconnexion
     return redirect('admin_login')
 
 def event_detail(request, event_id):
