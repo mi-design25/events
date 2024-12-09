@@ -54,7 +54,7 @@
               <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
               </nav>
 
-              <a class="btn-getstarted" href="{% url 'register' %}">Connexion</a>
+              <a class="btn-getstarted" href="{% url 'register_client' %}">Connexion</a>
 
           </div>
     </header>
@@ -68,12 +68,10 @@
             <div class="col-lg-6 col-md-8">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title text-center">Créer un Administrateur</h5>
+                  <h5 class="card-title text-center">Créer un compte Administrateur</h5>
+                  <p class="text-center">Entrez vos informations personnelles pour créer un compte</p>
                   <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-
-                    <!-- Informations utilisateur -->
-                    <h6>Informations utilisateur</h6>
                     <div class="mb-3">
                       <label for="username" class="form-label">Nom d'utilisateur</label>
                       {{ user_form.username|add_class:"form-control" }}
