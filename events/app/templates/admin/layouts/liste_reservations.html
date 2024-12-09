@@ -41,30 +41,14 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Diary</td>
-                    <td>Daniel</td>
-                    <td>0386113336</td>
-                    <td>razdaniel25@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Diary</td>
-                    <td>Daniel</td>
-                    <td>0386113336</td>
-                    <td>razdaniel25@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Diary</td>
-                    <td>Daniel</td>
-                    <td>0386113336</td>
-                    <td>razdaniel25@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Diary</td>
-                    <td>Daniel</td>
-                    <td>0386113336</td>
-                    <td>razdaniel25@gmail.com</td>
-                  </tr>
+                  {% for reservation in reservations %}
+                <tr>
+                  <td>{{ reservation.name }}</td>
+                  <td>{{ reservation.surname }}</td>
+                  <td>{{ reservation.phone_number }}</td>
+                  <td>{{ reservation.email }}</td>
+                </tr>
+              {% endfor %}
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->

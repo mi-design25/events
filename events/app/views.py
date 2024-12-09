@@ -122,7 +122,10 @@ def liste_evenements(request):
 # Function pour afficher toutes les réservations
 @login_required
 def liste_reservations(request):
-    return render(request, 'admin/layouts/liste_reservations.html')
+    reservations = Reservation.objects.filter(user=request.user)
+    return render(request, 'admin/layouts/liste_reservations.html', {
+        'reservations': reservations
+    })
 
 # Function pour enregistrer un nouvel administrateur
 def register_admin(request):
@@ -167,14 +170,23 @@ def event_detail(request, event_id):
 @login_required
 def reserve_event(request, event_id):
     event = Event.objects.get(id=event_id)  # Récupérer l'événement avec l'ID passé dans l'URL
-    
+
+    # Vérifier si l'utilisateur a déjà réservé cet événement
+    existing_reservation = Reservation.objects.filter(event=event, email=request.user.email).first()
+
     if request.method == 'POST':
-        # Récupérer les données soumises via le formulaire
+        if existing_reservation:
+            # Si l'utilisateur a déjà réservé, annuler la réservation
+            existing_reservation.delete()
+            messages.success(request, "Votre réservation a été annulée avec succès.")
+            return redirect('event_detail', event_id=event.id)
+
+        # Sinon, créer une nouvelle réservation
         name = request.POST.get('name')
         surname = request.POST.get('surname')
         phone_number = request.POST.get('number')
         email = request.POST.get('email')
-        
+
         # Créer une nouvelle réservation
         reservation = Reservation(
             event=event,
@@ -186,9 +198,9 @@ def reserve_event(request, event_id):
         reservation.save()  # Sauvegarder la réservation dans la base de données
         
         # Ajouter un message de succès
-        messages.success(request, "Réservation effectuée avec succès !")
+        messages.success(request, "Réservation effectuée avec succès!")
         
         # Rediriger l'utilisateur vers la page de détails de l'événement
         return redirect('event_detail', event_id=event.id)
-    
-    return render(request, 'event_details.html', {'event': event})
+
+    return render(request, 'event_details.html', {'event': event, 'existing_reservation': existing_reservation})
