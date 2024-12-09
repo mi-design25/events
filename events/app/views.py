@@ -162,3 +162,30 @@ def logout_view(request):
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     return render(request, 'event_detail.html', {'event': event})
+
+# Function pour faire une reservation pour un evenements
+@login_required
+def reserve_event(request, event_id):
+    event = Event.objects.get(id=event_id)  # Récupérer l'événement avec l'ID passé dans l'URL
+    
+    if request.method == 'POST':
+        # Récupérer les données soumises via le formulaire
+        name = request.POST.get('name')
+        surname = request.POST.get('surname')
+        phone_number = request.POST.get('number')
+        email = request.POST.get('email')
+        
+        # Créer une nouvelle réservation
+        reservation = Reservation(
+            event=event,
+            name=name,
+            surname=surname,
+            phone_number=phone_number,
+            email=email
+        )
+        reservation.save()  # Sauvegarder la réservation dans la base de données
+        
+        # Rediriger l'utilisateur vers la page de détails de l'événement
+        return redirect('event_detail', event_id=event.id)
+    
+    return render(request, 'event_details.html', {'event': event})

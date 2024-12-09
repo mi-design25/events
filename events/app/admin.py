@@ -6,6 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 admin.site.register(HeroSection)
 admin.site.register(Client)
 admin.site.register(Event)
+admin.site.register(Reservation)
 
 # Définir l'admin pour UserProfile
 # Définir l'admin pour UserProfile

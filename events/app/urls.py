@@ -10,6 +10,7 @@ urlpatterns = [
     path('event/<int:event_id>/', event_detail, name='event_detail'),
     path('register/', register, name='register_client'),
     path('login/', login_page, name='login_client'),
+    path('reserve_event/<int:event_id>/', reserve_event, name='reserve_event'),
     
     # Section page administator
     path('register_admin/',  register_admin, name='register'),
