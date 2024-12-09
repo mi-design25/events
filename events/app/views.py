@@ -68,8 +68,9 @@ def addEvents(request):
         program = request.POST.get('program')
         image = request.FILES.get('image')  # Récupération de l'image
 
-        # Créer l'événement
+        # Créer l'événement en l'associant à l'utilisateur connecté
         event = Event(
+            user=request.user,  # Associer l'utilisateur connecté
             title=title,
             category=category,
             description_court=description_court,
@@ -115,7 +116,8 @@ def delete_event(request, event_id):
 # Function pour afficher tous les événements
 @login_required
 def liste_evenements(request):
-    events = Event.objects.all()
+    # Filtrer les événements par utilisateur connecté
+    events = Event.objects.filter(user=request.user)
     return render(request, 'admin/layouts/liste_evenements.html', {'events': events})
 
 # Function pour afficher toutes les réservations

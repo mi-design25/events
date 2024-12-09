@@ -18,6 +18,7 @@ class Client(models.Model):
     
 # Create model for Events
 class Event(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events')
     category = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     description_court = models.TextField()
@@ -27,7 +28,7 @@ class Event(models.Model):
     capacity = models.IntegerField()
     program = models.TextField()
     image = models.ImageField(upload_to='Evenements/')
-    
+
     def __str__(self):
         return self.title
     
