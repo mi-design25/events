@@ -158,13 +158,14 @@ def register_admin(request):
 
 # Function pour déconnecter l'utilisateur
 def logout_view(request):
-    # Déconnecter l'utilisateur
     logout(request)
     return redirect('admin_login')
 
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
-    return render(request, 'event_detail.html', {'event': event})
+    reservations = Reservation.objects.filter(user=request.user)
+    return render(request, 'event_detail.html', {'event': event , 'reservations': reservations})
+
 
 # Function pour faire une reservation pour un evenements
 @login_required
@@ -177,26 +178,37 @@ def reserve_event(request, event_id):
         phone_number = request.POST.get('number')
         email = request.POST.get('email')
         
-        # Vérifier si l'utilisateur a déjà réservé pour cet événement
         if Reservation.objects.filter(event=event, user=request.user).exists():
             messages.error(request, "Vous avez déjà réservé pour cet événement.")
             return redirect('event_detail', event_id=event.id)
 
-        # Créer une nouvelle réservation avec l'utilisateur connecté
         reservation = Reservation(
             event=event,
-            user=request.user,  # Associer l'utilisateur connecté
+            user=request.user, 
             name=name,
             surname=surname,
             phone_number=phone_number,
             email=email
         )
-        reservation.save()  # Sauvegarder la réservation dans la base de données
+        reservation.save()
         
         # Ajouter un message de succès
         messages.success(request, "Réservation effectuée avec succès !")
         
-        # Rediriger l'utilisateur vers la page de détails de l'événement
         return redirect('event_detail', event_id=event.id)
     
     return render(request, 'event_details.html', {'event': event})
+
+
+@login_required
+def cancel_reservation(request, reservation_id):
+    reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
+
+    if reservation:
+        event_id = reservation.event.id
+        reservation.delete()
+        messages.success(request, "Votre réservation a été annulée avec succès.")
+    else:
+        messages.error(request, "Vous n'êtes pas autorisé à annuler cette réservation.")
+
+    return redirect('event_detail', event_id=event_id)

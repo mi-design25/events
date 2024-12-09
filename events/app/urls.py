@@ -11,6 +11,7 @@ urlpatterns = [
     path('register/', register, name='register_client'),
     path('login/', login_page, name='login_client'),
     path('reserve_event/<int:event_id>/', reserve_event, name='reserve_event'),
+    path('cancel-reservation/<int:reservation_id>/', cancel_reservation, name='cancel_reservation'),
     
     # Section page administator
     path('register_admin/',  register_admin, name='register'),

@@ -142,6 +142,41 @@
                     </div>
                 </section><!-- /Comment Form Section -->
 
+                <section id="my-reservations" class="section">
+                    <div class="container">
+                        <h4>Mes réservations</h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Événement</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Email</th>
+                                    <th>Date de réservation</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reservation in reservations %}
+                                <tr>
+                                    <td>{{ reservation.event.title }}</td>
+                                    <td>{{ reservation.name }}</td>
+                                    <td>{{ reservation.surname }}</td>
+                                    <td>{{ reservation.email }}</td>
+                                    <td>{{ reservation.reservation_date }}</td>
+                                    <td>
+                                        <form method="POST" action="{% url 'cancel_reservation' reservation.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Annuler</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
 
                 </div>
 
