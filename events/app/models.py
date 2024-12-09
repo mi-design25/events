@@ -32,7 +32,7 @@ class Event(models.Model):
         return self.title
     
     
-
+# Create model UserAdmin
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     about = models.TextField(blank=True, null=True)

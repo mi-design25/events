@@ -13,20 +13,25 @@
         <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
             <article>
                 <div class="post-img">
-                    <a href="{% url 'details' event.id %}"><img src="{{ event.image.url }}" alt="{{ event.title }}" class="img-fluid"></a>
+                    <!-- Lien vers les détails -->
+                    <a href="{% url 'event_detail' event.id %}">
+                        <img src="{{ event.image.url }}" alt="{{ event.title }}" class="img-fluid">
+                    </a>
                 </div>
 
                 <p class="post-category">{{ event.category }}</p>
 
                 <h2 class="title text-justify">
-                    <a href="{% url 'details' event.id %}">{{ event.title }}</a>
+                    <!-- Lien vers les détails -->
+                    <a href="{% url 'event_detail' event.id %}">{{ event.title }}</a>
                 </h2>
 
                 <p class="description text-justify">{{ event.description_court }}</p>
             </article>
-        </div><!-- Fin de l'élément de la liste des événements -->
+        </div>
         {% endfor %}
-    </div><!-- Fin de la liste des événements -->
+    </div>
+
 </div>
 
 </section><!-- /Section des publications récentes -->

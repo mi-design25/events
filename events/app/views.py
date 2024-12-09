@@ -18,11 +18,6 @@ def index(request):
         'events': events
     })
 
-# Function pour afficher les détails d'un événement spécifique
-def event_details(request, id):
-    event = Event.objects.get(id=id)
-    return render(request, 'detailsEvent.html', {'event': event})
-
 # Function pour afficher la page d'inscription
 def register(request):
     return render(request, 'register.html')
@@ -165,3 +160,7 @@ def logout_view(request):
     
     # Rediriger l'utilisateur vers la page d'accueil ou une autre page après la déconnexion
     return redirect('admin_login')
+
+def event_detail(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    return render(request, 'event_detail.html', {'event': event})
