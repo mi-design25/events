@@ -42,13 +42,17 @@
                 </thead>
                 <tbody>
                   {% for reservation in reservations %}
-                <tr>
-                  <td>{{ reservation.name }}</td>
-                  <td>{{ reservation.surname }}</td>
-                  <td>{{ reservation.phone_number }}</td>
-                  <td>{{ reservation.email }}</td>
-                </tr>
-              {% endfor %}
+                  <tr>
+                    <td>{{ reservation.name }}</td>
+                    <td>{{ reservation.surname }}</td>
+                    <td>{{ reservation.phone_number }}</td>
+                    <td>{{ reservation.email }}</td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="4" class="text-center">Aucune réservation trouvée.</td>
+                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->

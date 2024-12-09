@@ -169,27 +169,24 @@ def event_detail(request, event_id):
 # Function pour faire une reservation pour un evenements
 @login_required
 def reserve_event(request, event_id):
-    event = Event.objects.get(id=event_id)  # Récupérer l'événement avec l'ID passé dans l'URL
-
-    # Vérifier si l'utilisateur a déjà réservé cet événement
-    existing_reservation = Reservation.objects.filter(event=event, email=request.user.email).first()
+    event = get_object_or_404(Event, id=event_id)  # Récupérer l'événement avec l'ID passé dans l'URL
 
     if request.method == 'POST':
-        if existing_reservation:
-            # Si l'utilisateur a déjà réservé, annuler la réservation
-            existing_reservation.delete()
-            messages.success(request, "Votre réservation a été annulée avec succès.")
-            return redirect('event_detail', event_id=event.id)
-
-        # Sinon, créer une nouvelle réservation
+        # Récupérer les données soumises via le formulaire
         name = request.POST.get('name')
         surname = request.POST.get('surname')
         phone_number = request.POST.get('number')
         email = request.POST.get('email')
+        
+        # Vérifier si l'utilisateur a déjà réservé pour cet événement
+        if Reservation.objects.filter(event=event, user=request.user).exists():
+            messages.error(request, "Vous avez déjà réservé pour cet événement.")
+            return redirect('event_detail', event_id=event.id)
 
-        # Créer une nouvelle réservation
+        # Créer une nouvelle réservation avec l'utilisateur connecté
         reservation = Reservation(
             event=event,
+            user=request.user,  # Associer l'utilisateur connecté
             name=name,
             surname=surname,
             phone_number=phone_number,
@@ -198,9 +195,9 @@ def reserve_event(request, event_id):
         reservation.save()  # Sauvegarder la réservation dans la base de données
         
         # Ajouter un message de succès
-        messages.success(request, "Réservation effectuée avec succès!")
+        messages.success(request, "Réservation effectuée avec succès !")
         
         # Rediriger l'utilisateur vers la page de détails de l'événement
         return redirect('event_detail', event_id=event.id)
-
-    return render(request, 'event_details.html', {'event': event, 'existing_reservation': existing_reservation})
+    
+    return render(request, 'event_details.html', {'event': event})
