@@ -185,6 +185,9 @@ def reserve_event(request, event_id):
         )
         reservation.save()  # Sauvegarder la réservation dans la base de données
         
+        # Ajouter un message de succès
+        messages.success(request, "Réservation effectuée avec succès !")
+        
         # Rediriger l'utilisateur vers la page de détails de l'événement
         return redirect('event_detail', event_id=event.id)
     

@@ -25,6 +25,7 @@
     <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
     <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+    
 
     <!-- Main JS File -->
     <script src="{% static 'assets/js/main.js' %}"></script>
@@ -105,6 +106,13 @@
                 <!-- Comment Form Section -->
                 <section id="comment-form" class="comment-form section">
                     <div class="container">
+                        {% if messages %}
+                        <div class="alert alert-success">
+                            {% for message in messages %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
 
                     <form method="POST" action="{% url 'reserve_event' event.id %}">  <!-- action vers la vue de réservation -->
                         {% csrf_token %}
