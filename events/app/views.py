@@ -169,10 +169,9 @@ def event_detail(request, event_id):
 # Function pour faire une reservation pour un evenements
 @login_required
 def reserve_event(request, event_id):
-    event = get_object_or_404(Event, id=event_id)  # Récupérer l'événement avec l'ID passé dans l'URL
+    event = get_object_or_404(Event, id=event_id) 
 
     if request.method == 'POST':
-        # Récupérer les données soumises via le formulaire
         name = request.POST.get('name')
         surname = request.POST.get('surname')
         phone_number = request.POST.get('number')
