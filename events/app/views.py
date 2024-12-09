@@ -212,3 +212,8 @@ def cancel_reservation(request, reservation_id):
         messages.error(request, "Vous n'êtes pas autorisé à annuler cette réservation.")
 
     return redirect('event_detail', event_id=event_id)
+
+
+@login_required
+def profil(request):
+    return render(request , 'admin/layouts/profil.html')
