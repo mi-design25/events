@@ -9,18 +9,17 @@ admin.site.register(Event)
 admin.site.register(Reservation)
 
 # Définir l'admin pour UserProfile
-# Définir l'admin pour UserProfile
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'company', 'post', 'country', 'phone', 'image')  # Champs à afficher
-    list_filter = ('country', 'company')  # Permet de filtrer par certains champs
-    search_fields = ('user__username', 'user__email', 'company')  # Permet de rechercher
+    list_display = ('user', 'company', 'post', 'country', 'phone', 'image')
+    list_filter = ('country', 'company')
+    search_fields = ('user__username', 'user__email', 'company')
     fieldsets = (
         (None, {
             'fields': ('user', 'about', 'company', 'post', 'country', 'address', 'phone', 'image')
         }),
     )
     list_per_page = 10  # Pagination
-    ordering = ('user__username',)  # Tri par nom d'utilisateur
+    ordering = ('user__username',)
 
 # Enregistrement de l'admin pour UserProfile
 admin.site.register(UserProfile, UserProfileAdmin)
@@ -34,11 +33,11 @@ class UserProfileInline(admin.StackedInline):
 
 # Personnalisation de l'admin de User pour inclure UserProfile
 class CustomUserAdmin(UserAdmin):
-    inlines = (UserProfileInline,)  # Associer UserProfile à User
+    inlines = (UserProfileInline,) 
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_superuser', 'date_joined')
     search_fields = ('username', 'email', 'first_name', 'last_name')
     list_filter = ('is_staff', 'is_superuser', 'is_active')
-    ordering = ('-date_joined',)  # Tri par date d'inscription
+    ordering = ('-date_joined',) 
 
 # Désenregistrer et réenregistrer le modèle User avec la nouvelle configuration
 admin.site.unregister(User)

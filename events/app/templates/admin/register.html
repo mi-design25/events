@@ -54,7 +54,7 @@
               <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
               </nav>
 
-              <a class="btn-getstarted" href="{% url 'register_client' %}">Connexion</a>
+              <a class="btn-getstarted" href="{% url 'admin_login' %}">Connexion</a>
 
           </div>
     </header>
@@ -129,6 +129,10 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">Créer l'administrateur</button>
+                    <br><br>
+                    <div class="mb-3 text-center">
+                      <p class="small mb-0">Vous avez déjà un compte ? <a href="{% url 'admin_login' %}">Connectez-vous</a></p>
+                    </div>
                   </form>
 
                   {% if messages %}
