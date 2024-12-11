@@ -27,6 +27,7 @@ class Event(models.Model):
     date = models.DateField()
     capacity = models.IntegerField()
     program = models.TextField()
+    # comments = models.TextField()
     image = models.ImageField(upload_to='Evenements/')
 
     def __str__(self):
