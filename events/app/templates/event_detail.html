@@ -105,41 +105,27 @@
 
                     <!-- Blog Comments Section -->
                     <section id="blog-comments" class="blog-comments section">
-
                         <div class="container">
-
-                        <h4 class="comments-count">8 Comments</h4>
-
-                        <div id="comment-1" class="comment">
-                            <div class="d-flex">
-                            <div class="comment-img"><img src="assets/img/blog/comments-1.jpg" alt=""></div>
-                            <div>
-                                <h5><a href="">Georgia Reader</a></h5>
-                                <time datetime="2020-01-01">01 Jan,2022</time>
-                                <p>
-                                Et rerum totam nisi. Molestiae vel quam dolorum vel voluptatem et et. Est ad aut sapiente quis molestiae est qui cum soluta.
-                                Vero aut rerum vel. Rerum quos laboriosam placeat ex qui. Sint qui facilis et.
-                                </p>
-                            </div>
-                            </div>
-                        </div><!-- End comment #1 -->
-
-                        <div id="comment-2" class="comment">
-                            <div class="d-flex">
-                            <div class="comment-img"><img src="assets/img/blog/comments-2.jpg" alt=""></div>
-                            <div>
-                                <h5><a href="">Aron Alvarado</a></h5>
-                                <time datetime="2020-01-01">01 Jan,2022</time>
-                                <p>
-                                Ipsam tempora sequi voluptatem quis sapiente non. Autem itaque eveniet saepe. Officiis illo ut beatae.
-                                </p>
-                            </div>
-                            </div>
-                        </div><!-- End comment #2-->
-
+                            <h4 class="comments-count">{{ comments.count }} Commentaires</h4>
+                            {% for comment in comments %}
+                                <div id="comment-{{ comment.id }}" class="comment">
+                                    <div class="d-flex">
+                                        {%load static%}
+                                        <div class="comment-img"><img src="{% static 'assets2/img/images.jpg' %}" alt=""></div>
+                                        <div>
+                                            <h5><a href="#">{{ comment.name }}</a></h5> <!-- Afficher le nom -->
+                                            <time datetime="{{ comment.created_at|date:'Y-m-d' }}">{{ comment.created_at|date:"d M, Y" }}</time>
+                                            <p>{{ comment.content }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p>Aucun commentaire pour l'instant.</p>
+                            {% endfor %}
                         </div>
+                    </section>
 
-                    </section><!-- /Blog Comments Section -->
+                    <!-- /Blog Comments Section -->
 
                 </div><br>
                 
@@ -151,28 +137,27 @@
                         <section id="comment-form" class="comment-form section">
                             <div class="container">
 
-                                <form action="">
-
+                                <form method="post" action="{% url 'event_detail' event.id %}">
+                                    {% csrf_token %}
                                     <h4>Poster un Commentaire</h4>
                                     <div class="row">
                                         <div class="col-md-6 form-group">
-                                            <input name="name" type="text" class="form-control" placeholder="Votre Nom*">
+                                            <input name="name" type="text" class="form-control" placeholder="Votre Nom*" required>
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <input name="email" type="text" class="form-control" placeholder="Votre Email*">
+                                            <input name="email" type="email" class="form-control" placeholder="Votre Email*" required>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col form-group">
-                                            <textarea name="comment" class="form-control" placeholder="Votre Commentaire*"></textarea>
+                                            <textarea name="comment" class="form-control" placeholder="Votre Commentaire*" required></textarea>
                                         </div>
                                     </div>
-
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary">Poster le Commentaire</button>
                                     </div>
-
                                 </form>
+
 
                             </div>
                         </section><!-- /Section Formulaire de Commentaire -->
@@ -181,7 +166,7 @@
                 </div>
                 <!-- Reservation Form Section -->
                 <div>
-                     <section id="comment-form" class="comment-form section">
+                        <section id="comment-form" class="comment-form section">
                             <div class="container">
                                 {% if messages %}
                                 <div class="alert alert-success">

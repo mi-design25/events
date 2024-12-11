@@ -27,7 +27,6 @@ class Event(models.Model):
     date = models.DateField()
     capacity = models.IntegerField()
     program = models.TextField()
-    # comments = models.TextField()
     image = models.ImageField(upload_to='Evenements/')
 
     def __str__(self):
@@ -59,3 +58,15 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"Reservation for {self.name} {self.surname} to {self.event.title}"
+    
+class Comment(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=100, null=True, blank=True)  # Nom
+    email = models.EmailField(null=True, blank=True)  # Email
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment by {self.name or self.user.username} on {self.event.title}"
+

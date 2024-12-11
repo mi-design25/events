@@ -14,9 +14,7 @@
   <ul class="d-flex align-items-center">
     <li class="nav-item dropdown pe-3">
       <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-        <!-- Afficher l'image de profil de l'utilisateur connecté -->
         {% load static %}
-        <!-- Afficher l'image de profil de l'utilisateur connecté -->
         <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'assets2/img/images.jpg' %}{% endif %}" alt="Profile" class="rounded-circle">
 
 

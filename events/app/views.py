@@ -161,10 +161,33 @@ def logout_view(request):
     logout(request)
     return redirect('admin_login')
 
+@login_required
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     reservations = Reservation.objects.filter(user=request.user)
-    return render(request, 'event_detail.html', {'event': event , 'reservations': reservations})
+    comments = Comment.objects.filter(event=event).order_by('-created_at')
+
+    if request.method == "POST":
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        content = request.POST.get('comment')
+
+        # Validation des champs (facultatif)
+        if name and email and content:
+            Comment.objects.create(
+                event=event,
+                user=request.user if request.user.is_authenticated else None,
+                name=name,  # Enregistrer le nom
+                email=email,  # Enregistrer l'email
+                content=content
+            )
+            return redirect('event_detail', event_id=event_id)
+
+    return render(request, 'event_detail.html', {
+        'event': event,
+        'reservations': reservations,
+        'comments': comments,
+    })
 
 
 # Function pour faire une reservation pour un evenements
