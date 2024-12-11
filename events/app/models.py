@@ -48,6 +48,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"{self.user.username} Profile"
     
+# Create model Reservation    
 class Reservation(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='reservations')
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True) 
@@ -59,7 +60,8 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"Reservation for {self.name} {self.surname} to {self.event.title}"
-    
+
+# Create model Comment 
 class Comment(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -72,7 +74,7 @@ class Comment(models.Model):
     def __str__(self):
         return f"Comment by {self.name or 'Anonymous'} on {self.event.title}"
 
-
+# Create model Notification
 class Notification(models.Model):
     TYPE_CHOICES = [
         ('reservation', 'Réservation'),
@@ -88,3 +90,5 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification pour {self.user} sur l'événement {self.event}"
+    
+# Create model Message

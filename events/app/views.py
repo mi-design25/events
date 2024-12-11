@@ -67,9 +67,26 @@ def administration(request):
 
     # Récupérer les notifications non lues pour l'administrateur
     notifications = Notification.objects.filter(user=request.user, is_read=False)
+    events = Event.objects.filter(user=request.user)
 
-    # Passer les notifications au contexte
-    return render(request, 'admin/layouts/index.html', {'profile': profile, 'notifications': notifications})
+    # Calculer les totaux pour les différents modèles
+    total_events = Event.objects.filter(user=request.user).count()
+    total_reservations = Reservation.objects.filter(user=request.user).count() 
+    total_clients = User.objects.filter(is_active=True).count()
+
+    # Passer les données au contexte
+    context = {
+        'events' : events,
+        'profile': profile,
+        'notifications': notifications,
+        'total_events': total_events,
+        'total_reservations': total_reservations,
+        'total_clients': total_clients,
+    }
+
+    return render(request, 'admin/layouts/index.html', context)
+
+
 
 # Function pour ajouter un événement
 @login_required
@@ -134,14 +151,23 @@ def delete_event(request, event_id):
 @login_required
 def liste_evenements(request):
     events = Event.objects.filter(user=request.user)
-    return render(request, 'admin/layouts/liste_evenements.html', {'events': events})
+
+    # Récupérer les notifications non lues pour l'administrateur
+    notifications = Notification.objects.filter(user=request.user, is_read=False)
+
+    return render(request, 'admin/layouts/liste_evenements.html', {'events': events, 'notifications': notifications})
 
 # Function pour afficher toutes les réservations
 @login_required
 def liste_reservations(request):
     reservations = Reservation.objects.filter(user=request.user)
+    
+    # Récupérer les notifications non lues pour l'administrateur
+    notifications = Notification.objects.filter(user=request.user, is_read=False)
+
     return render(request, 'admin/layouts/liste_reservations.html', {
-        'reservations': reservations
+        'reservations': reservations,
+        'notifications': notifications
     })
 
 # Function pour enregistrer un nouvel administrateur
@@ -238,7 +264,7 @@ def reserve_event(request, event_id):
         # Création d'une notification pour l'administrateur
         admin_user = User.objects.filter(is_staff=True).first()
         if admin_user:
-            notification_message = f"{request.user.username} a réservé un billet pour l'événement {event.title}."
+            notification_message = f"Quelqu'un a réservé un billet pour l'événement {event.title}."
             Notification.objects.create(
                 user=admin_user,
                 event=event,
@@ -253,7 +279,6 @@ def reserve_event(request, event_id):
     # Rendu de la page de détails de l'événement
     return render(request, 'event_details.html', {'event': event})
 
-
 # Function pour annuler une reservation
 @login_required
 def cancel_reservation(request, reservation_id):
@@ -264,8 +289,8 @@ def cancel_reservation(request, reservation_id):
         reservation.delete()
 
         # Créer une notification pour l'administrateur
-        admin_user = User.objects.filter(is_staff=True).first()  # Supposons qu'il n'y a qu'un admin
-        notification_message = f"{request.user.username} a annulé sa réservation pour l'événement {reservation.event.title}."
+        admin_user = User.objects.filter(is_staff=True).first()
+        notification_message = f"Quelqu'un a annulé sa réservation pour l'événement {reservation.event.title}."
         Notification.objects.create(
             user=admin_user,
             event=reservation.event,
@@ -282,4 +307,14 @@ def cancel_reservation(request, reservation_id):
 # Function pour afficher la page profil dans l'Administrateur
 @login_required
 def profil(request):
-    return render(request , 'admin/layouts/profil.html')
+    # Récupérer les notifications non lues pour l'administrateur
+    notifications = Notification.objects.filter(user=request.user, is_read=False)
+    
+    return render(request , 'admin/layouts/profil.html', {
+        'notifications': notifications
+    })
+
+@login_required
+def mark_notifications_as_read(request):
+    Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)
+    return redirect('administration')

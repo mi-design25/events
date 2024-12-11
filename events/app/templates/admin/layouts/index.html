@@ -1,5 +1,29 @@
 {% include 'layouts/admin/head_admin.html' %}
 <body>
+  <style>
+      .table img {
+          max-width: 100%;
+          height: auto;
+      }
+
+      .table td, .table th {
+          white-space: nowrap;
+      }
+
+      @media (max-width: 768px) {
+          .table td, .table th {
+              font-size: 12px; 
+          }
+
+          .table img {
+              max-width: 50px;
+          }
+
+          .table-responsive {
+              overflow-x: auto;
+          }
+      }
+  </style>
 
   {% include 'layouts/admin/header_admin.html' %}
   {% include 'layouts/admin/sidebar_admin.html' %}
@@ -23,199 +47,109 @@
         <div class="col-lg-12">
           <div class="row">
 
-            <!-- Carte des ventes -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filtrer</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Aujourd'hui</a></li>
-                    <li><a class="dropdown-item" href="#">Ce mois-ci</a></li>
-                    <li><a class="dropdown-item" href="#">Cette année</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Ventes <span>| Aujourd'hui</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
+            <!-- Carte des ventes (Total événements) -->
+            <div class="col-xxl-6 col-md-6">
+                <div class="card info-card sales-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total <span>| Evenements</span></h5>
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-calendar-event fs-4 fs-md-2"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6>{{ total_events }}</h6>
+                                <span class="text-success small pt-1 fw-bold">...</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">augmentation</span>
+                </div>
+            </div>
 
+            <!-- Carte des revenus (Total réservations) -->
+            <div class="col-xxl-6 col-md-6">
+                <div class="card info-card revenue-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Totale <span>| Reservations</span></h5>
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-credit-card fs-4 fs-md-2"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6>{{ total_reservations }}</h6>
+                                <span class="text-success small pt-1 fw-bold">...</span>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-
-              </div>
-            </div><!-- Fin Carte des ventes -->
-
-            <!-- Carte des revenus -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card revenue-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filtrer</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Aujourd'hui</a></li>
-                    <li><a class="dropdown-item" href="#">Ce mois-ci</a></li>
-                    <li><a class="dropdown-item" href="#">Cette année</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Revenus <span>| Ce mois-ci</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>$3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">augmentation</span>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div><!-- Fin Carte des revenus -->
-
-            <!-- Carte des clients -->
-            <div class="col-xxl-4 col-xl-12">
-
-              <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filtrer</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Aujourd'hui</a></li>
-                    <li><a class="dropdown-item" href="#">Ce mois-ci</a></li>
-                    <li><a class="dropdown-item" href="#">Cette année</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Clients <span>| Cette année</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">baisse</span>
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-            </div><!-- Fin Carte des clients -->
-
-            <!-- Rapports -->
-            <div class="col-12">
-              <div class="card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filtrer</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Aujourd'hui</a></li>
-                    <li><a class="dropdown-item" href="#">Ce mois-ci</a></li>
-                    <li><a class="dropdown-item" href="#">Cette année</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Rapports <span>/Aujourd'hui</span></h5>
-
-                  <!-- Graphique en ligne -->
-                  <div id="reportsChart"></div>
-
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#reportsChart"), {
-                        series: [{
-                          name: 'Ventes',
-                          data: [31, 40, 28, 51, 42, 82, 56],
-                        }, {
-                          name: 'Revenus',
-                          data: [11, 32, 45, 32, 34, 52, 41]
-                        }, {
-                          name: 'Clients',
-                          data: [15, 11, 32, 18, 9, 24, 11]
-                        }],
-                        chart: {
-                          height: 350,
-                          type: 'area',
-                          toolbar: {
-                            show: false
-                          },
-                        },
-                        markers: {
-                          size: 4
-                        },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                        fill: {
-                          type: "gradient",
-                          gradient: {
-                            shadeIntensity: 1,
-                            opacityFrom: 0.3,
-                            opacityTo: 0.4,
-                            stops: [0, 90, 100]
-                          }
-                        },
-                        dataLabels: {
-                          enabled: false
-                        },
-                        stroke: {
-                          curve: 'smooth',
-                          width: 2
-                        },
-                        xaxis: {
-                          type: 'datetime',
-                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                        },
-                        tooltip: {
-                          x: {
-                            format: 'dd/MM/yy HH:mm'
-                          },
-                        }
-                      }).render();
-                    });
-                  </script>
-                  <!-- Fin Graphique en ligne -->
-
-                </div>
-
-              </div>
-            </div><!-- Fin Rapports -->
+            </div>
 
           </div>
         </div><!-- Fin Colonnes côté gauche -->
 
       </div>
+    </section>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Listes des Événements</h5>
+
+                        <!-- Table with stripped rows -->
+                        <div class="table-responsive">
+                        <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th>Images</th>
+                                <th><b>Titre</b></th>
+                                <th>Catégorie</th>
+                                <th>Localisation</th>
+                                <th data-type="date" data-format="YYYY/DD/MM">Date</th>
+                                <th>Capacité</th>
+                                <th>Modifier</th>
+                                <th>Supprimer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in events %}
+                            <tr>
+                                <td>
+                                    {% if event.image %}
+                                        <img src="{{ event.image.url }}" alt="Image de l'événement" style="max-width: 100px; max-height: 100px;">
+                                    {% else %}
+                                        Pas d'image
+                                    {% endif %}
+                                </td>
+                                <td>{{ event.title }}</td>
+                                <td>{{ event.category }}</td>
+                                <td>{{ event.location }}</td>
+                                <td>{{ event.date }}</td>
+                                <td>{{ event.capacity }} <span>personnes</span></td>
+                                <td>
+                                    <a href="{% url 'edit_event' event.id %}" class="btn btn-success btn-sm">
+                                        <i class="bi bi-pencil"></i> Modifier
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'delete_event' event.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
+                                        <i class="bi bi-trash"></i> Supprimer
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8">Aucun événement trouvé.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                        </table>
+                        </div>
+                        <!-- End Table with stripped rows -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
 

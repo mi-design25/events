@@ -19,34 +19,38 @@
                 <span class="badge bg-primary badge-number">{{ notifications.count }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-                <li class="dropdown-header">
-                    Vous avez {{ notifications.count }} nouvelles notifications
-                    <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a>
-                </li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
+              <li class="dropdown-header">
+                  Vous avez {{ notifications.count }} nouvelles notifications
+                  <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a>
+              </li>
+              <li>
+                  <hr class="dropdown-divider">
+              </li>
 
-                {% for notification in notifications %}
-                <li class="notification-item">
-                    {% if notification.notification_type == 'reservation' %}
-                        <i class="bi bi-check-circle text-success"></i>
-                    {% else %}
-                        <i class="bi bi-x-circle text-danger"></i>
-                    {% endif %}
-                    <div>
-                        <h4>{{ notification.message }}</h4>
-                        <p>{{ notification.created_at|timesince }} ago</p>
-                    </div>
-                </li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                {% endfor %}
-                <li class="dropdown-footer">
-                    <a href="#">Voir toutes les notifications</a>
-                </li>
-            </ul>
+              {% for notification in notifications %}
+              <li class="notification-item">
+                  {% if notification.notification_type == 'reservation' %}
+                      <i class="bi bi-check-circle text-success"></i>
+                  {% else %}
+                      <i class="bi bi-x-circle text-danger"></i>
+                  {% endif %}
+                  
+                  <a href="{% url 'mark_notifications_as_read' %}"><div>
+                      <h4>{{ notification.message }}</h4>
+                      <p>{{ notification.created_at|timesince }} ago</p>
+                  </div></a>
+              </li>
+              <li>
+                  <hr class="dropdown-divider">
+              </li>
+              {% endfor %}
+
+              <!-- Lien existant pour voir toutes les notifications -->
+              <li class="dropdown-footer">
+                  <a href="#">Voir toutes les notifications</a>
+              </li>
+          </ul>
+
         </li>
 
 

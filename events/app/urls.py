@@ -23,6 +23,7 @@ urlpatterns = [
     path('administration/delete-event/<int:event_id>/', delete_event, name='delete_event'),
     path('administration/Liste-evenements/', liste_evenements, name='liste_evenements'),
     path('administration/Liste-reservations/', liste_reservations, name='liste_reservations'),
-    path('administration/profil/', profil, name='profil')
+    path('administration/profil/', profil, name='profil'),
+    path('mark_notifications_as_read/', mark_notifications_as_read, name='mark_notifications_as_read'),
 
 ]
