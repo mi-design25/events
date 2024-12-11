@@ -54,71 +54,14 @@
         </li>
 
 
+        <!-- Code HTML pour l'icône de chat avec redirection vers la page de chat -->
         <li class="nav-item dropdown">
-
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <a class="nav-link nav-icon" href="{% url 'chat' %}">
                 <i class="bi bi-chat-left-text"></i>
                 <span class="badge bg-success badge-number">3</span>
-            </a><!-- Fin Icône des messages -->
+            </a>
+        </li>
 
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-                <li class="dropdown-header">
-                    Vous avez 3 nouveaux messages
-                    <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a>
-                </li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-
-                <li class="message-item">
-                    <a href="#">
-                        <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
-                        <div>
-                            <h4>Maria Hudson</h4>
-                            <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                            <p>Il y a 4 h.</p>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-
-                <li class="message-item">
-                    <a href="#">
-                        <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
-                        <div>
-                            <h4>Anna Nelson</h4>
-                            <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                            <p>Il y a 6 h.</p>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-
-                <li class="message-item">
-                    <a href="#">
-                        <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
-                        <div>
-                            <h4>David Muldon</h4>
-                            <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                            <p>Il y a 8 h.</p>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-
-                <li class="dropdown-footer">
-                    <a href="#">Voir tous les messages</a>
-                </li>
-
-            </ul><!-- Fin des éléments du menu déroulant des messages -->
-
-        </li><!-- Fin de la navigation des messages -->
 
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">

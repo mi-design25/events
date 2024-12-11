@@ -55,6 +55,7 @@ def admin_login(request):
             messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
     return render(request, 'admin/admin.html')
 
+
 # Function pour afficher l'espace administrateur personnalisé
 @login_required
 def administration(request):
@@ -85,7 +86,6 @@ def administration(request):
     }
 
     return render(request, 'admin/layouts/index.html', context)
-
 
 
 # Function pour ajouter un événement
@@ -318,3 +318,7 @@ def profil(request):
 def mark_notifications_as_read(request):
     Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)
     return redirect('administration')
+
+def chat_view(request):
+    # Vous pouvez récupérer les messages du chat en fonction de l'utilisateur connecté ou de la salle de chat
+    return render(request, 'chat.html')
