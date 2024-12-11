@@ -12,16 +12,15 @@ def index(request):
     events = Event.objects.all()
     
     # Calcul des statistiques
-    clients_count = clients.count()  # Nombre de clients
-    reservations_count = Reservation.objects.count()  # Nombre de réservations
-    events_count = events.count()  # Nombre d'événements
-    comments_count = Comment.objects.count()  # Nombre de commentaires
+    clients_count = clients.count()  
+    reservations_count = Reservation.objects.count()  
+    events_count = events.count() 
+    comments_count = Comment.objects.count() 
 
-    # Ajouter les lignes de programme pour chaque événement
+
     for event in events:
         event.program_lines = event.program.splitlines()
 
-    # Envoi des données dans le contexte
     return render(request, 'index.html', {
         'hero': hero,
         'clients': clients,
@@ -175,19 +174,19 @@ def logout_view(request):
     logout(request)
     return redirect('admin_login')
 
+# Function pour afficher les détails d'un événement
 @login_required
 def event_detail(request, event_id):
+    reservations = Reservation.objects.filter(user=request.user)
     event = get_object_or_404(Event, id=event_id)
     comments = event.comments.all()
 
-     # Récupérer les réservations de l'utilisateur connecté
-    reservations = Reservation.objects.filter(user=request.user)
 
     if request.method == "POST":
         name = request.POST.get('name')
         email = request.POST.get('email')
         content = request.POST.get('comment')
-        profile_picture = request.FILES.get('profile_picture')  # Récupérer l'image
+        profile_picture = request.FILES.get('profile_picture') 
 
         if name and email and content:
             new_comment = Comment(
@@ -197,7 +196,7 @@ def event_detail(request, event_id):
                 content=content
             )
             if profile_picture:
-                new_comment.profile_picture = profile_picture  # Assigner l'image
+                new_comment.profile_picture = profile_picture 
             new_comment.save()
 
     return render(request, 'event_detail.html', {'event': event, 'comments': comments,  'reservations': reservations})
@@ -228,14 +227,13 @@ def reserve_event(request, event_id):
         )
         reservation.save()
         
-        # Ajouter un message de succès
         messages.success(request, "Réservation effectuée avec succès !")
         
         return redirect('event_detail', event_id=event.id)
     
     return render(request, 'event_details.html', {'event': event})
 
-
+# Function pour annuler une reservation
 @login_required
 def cancel_reservation(request, reservation_id):
     reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
@@ -249,7 +247,7 @@ def cancel_reservation(request, reservation_id):
 
     return redirect('event_detail', event_id=event_id)
 
-
+# Function pour afficher la page profil dans l'Administrateur
 @login_required
 def profil(request):
     return render(request , 'admin/layouts/profil.html')
