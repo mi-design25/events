@@ -1,0 +1,59 @@
+<style>
+    .chat-section {
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.messages {
+    max-height: 400px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
+}
+
+.message {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message.sent {
+    background-color: #d1ffd6;
+}
+
+.message.received {
+    background-color: #f1f1f1;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+</style>
+{% block content %}
+<section class="chat-section">
+    <div class="container">
+        <h2>Chat avec l'organisateur</h2>
+        <h4>{{ event.title }}</h4>
+        
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {% if message.sender == user %}sent{% else %}received{% endif %}">
+                    <strong>{{ message.sender.username }}:</strong>
+                    <p>{{ message.content }}</p>
+                    <small>{{ message.timestamp }}</small>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

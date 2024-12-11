@@ -28,6 +28,7 @@ class Event(models.Model):
     capacity = models.IntegerField()
     program = models.TextField()
     image = models.ImageField(upload_to='Evenements/')
+    
 
     def __str__(self):
         return self.title
@@ -49,7 +50,7 @@ class UserProfile(models.Model):
     
 class Reservation(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='reservations')
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # Utilisateur connecté (optionnel)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True) 
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15)
@@ -65,9 +66,10 @@ class Comment(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     content = models.TextField()
-    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)  # Nouveau champ
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Comment by {self.name or 'Anonymous'} on {self.event.title}"
+
 
