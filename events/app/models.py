@@ -62,11 +62,12 @@ class Reservation(models.Model):
 class Comment(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    name = models.CharField(max_length=100, null=True, blank=True)  # Nom
-    email = models.EmailField(null=True, blank=True)  # Email
+    name = models.CharField(max_length=100, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
     content = models.TextField()
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)  # Nouveau champ
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Comment by {self.name or self.user.username} on {self.event.title}"
+        return f"Comment by {self.name or 'Anonymous'} on {self.event.title}"
 

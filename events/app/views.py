@@ -164,30 +164,26 @@ def logout_view(request):
 @login_required
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
-    reservations = Reservation.objects.filter(user=request.user)
-    comments = Comment.objects.filter(event=event).order_by('-created_at')
+    comments = event.comments.all()
 
     if request.method == "POST":
         name = request.POST.get('name')
         email = request.POST.get('email')
         content = request.POST.get('comment')
+        profile_picture = request.FILES.get('profile_picture')  # Récupérer l'image
 
-        # Validation des champs (facultatif)
         if name and email and content:
-            Comment.objects.create(
+            new_comment = Comment(
                 event=event,
-                user=request.user if request.user.is_authenticated else None,
-                name=name,  # Enregistrer le nom
-                email=email,  # Enregistrer l'email
+                name=name,
+                email=email,
                 content=content
             )
-            return redirect('event_detail', event_id=event_id)
+            if profile_picture:
+                new_comment.profile_picture = profile_picture  # Assigner l'image
+            new_comment.save()
 
-    return render(request, 'event_detail.html', {
-        'event': event,
-        'reservations': reservations,
-        'comments': comments,
-    })
+    return render(request, 'event_detail.html', {'event': event, 'comments': comments})
 
 
 # Function pour faire une reservation pour un evenements

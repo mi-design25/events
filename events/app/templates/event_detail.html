@@ -110,10 +110,16 @@
                             {% for comment in comments %}
                                 <div id="comment-{{ comment.id }}" class="comment">
                                     <div class="d-flex">
-                                        {%load static%}
-                                        <div class="comment-img"><img src="{% static 'assets2/img/images.jpg' %}" alt=""></div>
+                                        {% load static %}
+                                        <div class="comment-img">
+                                            {% if comment.profile_picture %}
+                                                <img src="{{ comment.profile_picture.url }}"  style="border-radius: 50%;" alt="Photo de profil">
+                                            {% else %}
+                                                <img src="{% static 'assets2/img/images.jpg' %}" alt="Photo par défaut">
+                                            {% endif %}
+                                        </div>
                                         <div>
-                                            <h5><a href="#">{{ comment.name }}</a></h5> <!-- Afficher le nom -->
+                                            <h5><a href="#">{{ comment.name }}</a></h5>
                                             <time datetime="{{ comment.created_at|date:'Y-m-d' }}">{{ comment.created_at|date:"d M, Y" }}</time>
                                             <p>{{ comment.content }}</p>
                                         </div>
@@ -137,7 +143,7 @@
                         <section id="comment-form" class="comment-form section">
                             <div class="container">
 
-                                <form method="post" action="{% url 'event_detail' event.id %}">
+                                <form action="" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     <h4>Poster un Commentaire</h4>
                                     <div class="row">
@@ -153,11 +159,16 @@
                                             <textarea name="comment" class="form-control" placeholder="Votre Commentaire*" required></textarea>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col form-group">
+                                            <label for="profile_picture">Photo de Profil</label>
+                                            <input name="profile_picture" type="file" class="form-control" accept="image/*">
+                                        </div>
+                                    </div>
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary">Poster le Commentaire</button>
                                     </div>
                                 </form>
-
 
                             </div>
                         </section><!-- /Section Formulaire de Commentaire -->
