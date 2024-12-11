@@ -9,13 +9,27 @@ from .models import *
 def index(request):
     hero = HeroSection.objects.first()
     clients = Client.objects.all()
-    events = Event.objects.all() 
+    events = Event.objects.all()
+    
+    # Calcul des statistiques
+    clients_count = clients.count()  # Nombre de clients
+    reservations_count = Reservation.objects.count()  # Nombre de réservations
+    events_count = events.count()  # Nombre d'événements
+    comments_count = Comment.objects.count()  # Nombre de commentaires
+
+    # Ajouter les lignes de programme pour chaque événement
     for event in events:
         event.program_lines = event.program.splitlines()
+
+    # Envoi des données dans le contexte
     return render(request, 'index.html', {
         'hero': hero,
         'clients': clients,
-        'events': events
+        'events': events,
+        'clients_count': clients_count,
+        'reservations_count': reservations_count,
+        'events_count': events_count,
+        'comments_count': comments_count,
     })
 
 # Function pour afficher la page d'inscription
@@ -166,6 +180,9 @@ def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     comments = event.comments.all()
 
+     # Récupérer les réservations de l'utilisateur connecté
+    reservations = Reservation.objects.filter(user=request.user)
+
     if request.method == "POST":
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -183,7 +200,7 @@ def event_detail(request, event_id):
                 new_comment.profile_picture = profile_picture  # Assigner l'image
             new_comment.save()
 
-    return render(request, 'event_detail.html', {'event': event, 'comments': comments})
+    return render(request, 'event_detail.html', {'event': event, 'comments': comments,  'reservations': reservations})
 
 
 # Function pour faire une reservation pour un evenements

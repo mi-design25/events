@@ -6,7 +6,6 @@ urlpatterns = [
     path('', index, name='index'),
 
     # Section page client
-    # Autres URLs
     path('event/<int:event_id>/', event_detail, name='event_detail'),
     path('register/', register, name='register_client'),
     path('login/', login_page, name='login_client'),
