@@ -64,8 +64,12 @@ def administration(request):
     except UserProfile.DoesNotExist:
         messages.warning(request, "Votre profil n'existe pas. Veuillez contacter l'administration.")
         return redirect('register_admin')
-    
-    return render(request, 'admin/layouts/index.html', {'profile': profile})
+
+    # Récupérer les notifications non lues pour l'administrateur
+    notifications = Notification.objects.filter(user=request.user, is_read=False)
+
+    # Passer les notifications au contexte
+    return render(request, 'admin/layouts/index.html', {'profile': profile, 'notifications': notifications})
 
 # Function pour ajouter un événement
 @login_required
@@ -205,33 +209,50 @@ def event_detail(request, event_id):
 # Function pour faire une reservation pour un evenements
 @login_required
 def reserve_event(request, event_id):
-    event = get_object_or_404(Event, id=event_id) 
+    # Récupérer l'événement ou renvoyer une erreur 404
+    event = get_object_or_404(Event, id=event_id)
 
     if request.method == 'POST':
+        # Récupération des données du formulaire
         name = request.POST.get('name')
         surname = request.POST.get('surname')
         phone_number = request.POST.get('number')
         email = request.POST.get('email')
-        
+
+        # Vérification si une réservation existe déjà pour cet utilisateur
         if Reservation.objects.filter(event=event, user=request.user).exists():
             messages.error(request, "Vous avez déjà réservé pour cet événement.")
             return redirect('event_detail', event_id=event.id)
 
+        # Création de la réservation
         reservation = Reservation(
             event=event,
-            user=request.user, 
+            user=request.user,
             name=name,
             surname=surname,
             phone_number=phone_number,
             email=email
         )
         reservation.save()
-        
+
+        # Création d'une notification pour l'administrateur
+        admin_user = User.objects.filter(is_staff=True).first()
+        if admin_user:
+            notification_message = f"{request.user.username} a réservé un billet pour l'événement {event.title}."
+            Notification.objects.create(
+                user=admin_user,
+                event=event,
+                message=notification_message,
+                notification_type='reservation'
+            )
+
+        # Message de succès
         messages.success(request, "Réservation effectuée avec succès !")
-        
         return redirect('event_detail', event_id=event.id)
-    
+
+    # Rendu de la page de détails de l'événement
     return render(request, 'event_details.html', {'event': event})
+
 
 # Function pour annuler une reservation
 @login_required
@@ -241,6 +262,17 @@ def cancel_reservation(request, reservation_id):
     if reservation:
         event_id = reservation.event.id
         reservation.delete()
+
+        # Créer une notification pour l'administrateur
+        admin_user = User.objects.filter(is_staff=True).first()  # Supposons qu'il n'y a qu'un admin
+        notification_message = f"{request.user.username} a annulé sa réservation pour l'événement {reservation.event.title}."
+        Notification.objects.create(
+            user=admin_user,
+            event=reservation.event,
+            message=notification_message,
+            notification_type='cancellation'
+        )
+
         messages.success(request, "Votre réservation a été annulée avec succès.")
     else:
         messages.error(request, "Vous n'êtes pas autorisé à annuler cette réservation.")

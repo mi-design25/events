@@ -73,3 +73,18 @@ class Comment(models.Model):
         return f"Comment by {self.name or 'Anonymous'} on {self.event.title}"
 
 
+class Notification(models.Model):
+    TYPE_CHOICES = [
+        ('reservation', 'Réservation'),
+        ('cancellation', 'Annulation'),
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    event = models.ForeignKey('Event', on_delete=models.CASCADE) 
+    message = models.TextField() 
+    notification_type = models.CharField(max_length=50, choices=TYPE_CHOICES)
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Notification pour {self.user} sur l'événement {self.event}"

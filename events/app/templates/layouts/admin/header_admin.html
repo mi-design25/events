@@ -11,61 +11,166 @@
     </div><!-- End Logo -->
 
     <nav class="header-nav ms-auto">
-  <ul class="d-flex align-items-center">
-    <li class="nav-item dropdown pe-3">
-      <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-        {% load static %}
-        <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'assets2/img/images.jpg' %}{% endif %}" alt="Profile" class="rounded-circle">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item dropdown">
+            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                <i class="bi bi-bell"></i>
+                <span class="badge bg-primary badge-number">{{ notifications.count }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                <li class="dropdown-header">
+                    Vous avez {{ notifications.count }} nouvelles notifications
+                    <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+
+                {% for notification in notifications %}
+                <li class="notification-item">
+                    {% if notification.notification_type == 'reservation' %}
+                        <i class="bi bi-check-circle text-success"></i>
+                    {% else %}
+                        <i class="bi bi-x-circle text-danger"></i>
+                    {% endif %}
+                    <div>
+                        <h4>{{ notification.message }}</h4>
+                        <p>{{ notification.created_at|timesince }} ago</p>
+                    </div>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                {% endfor %}
+                <li class="dropdown-footer">
+                    <a href="#">Voir toutes les notifications</a>
+                </li>
+            </ul>
+        </li>
 
 
+        <li class="nav-item dropdown">
+
+            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                <i class="bi bi-chat-left-text"></i>
+                <span class="badge bg-success badge-number">3</span>
+            </a><!-- Fin Icône des messages -->
+
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+                <li class="dropdown-header">
+                    Vous avez 3 nouveaux messages
+                    <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+
+                <li class="message-item">
+                    <a href="#">
+                        <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
+                        <div>
+                            <h4>Maria Hudson</h4>
+                            <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                            <p>Il y a 4 h.</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+
+                <li class="message-item">
+                    <a href="#">
+                        <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
+                        <div>
+                            <h4>Anna Nelson</h4>
+                            <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                            <p>Il y a 6 h.</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+
+                <li class="message-item">
+                    <a href="#">
+                        <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
+                        <div>
+                            <h4>David Muldon</h4>
+                            <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                            <p>Il y a 8 h.</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+
+                <li class="dropdown-footer">
+                    <a href="#">Voir tous les messages</a>
+                </li>
+
+            </ul><!-- Fin des éléments du menu déroulant des messages -->
+
+        </li><!-- Fin de la navigation des messages -->
+
+        <li class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            {% load static %}
+            <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'assets2/img/images.jpg' %}{% endif %}" alt="Profile" class="rounded-circle">
+
+
+            
+            <!-- Afficher le nom de l'utilisateur connecté -->
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.first_name }} {{ user.last_name }}</span>
+          </a><!-- End Profile Image Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <!-- Afficher le nom complet et un rôle (si défini dans le profil utilisateur) -->
+              <h6>{{ user.first_name }} {{ user.last_name }}</h6>
+              <span>{{ user.profile.post }}</span>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="">
+                <i class="bi bi-gear"></i>
+                <span>Account Settings</span>
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="">
+                <i class="bi bi-question-circle"></i>
+                <span>Need Help?</span>
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+
+            <!-- Permet de se déconnecter -->
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
         
-        <!-- Afficher le nom de l'utilisateur connecté -->
-        <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.first_name }} {{ user.last_name }}</span>
-      </a><!-- End Profile Image Icon -->
-
-      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-        <li class="dropdown-header">
-          <!-- Afficher le nom complet et un rôle (si défini dans le profil utilisateur) -->
-          <h6>{{ user.first_name }} {{ user.last_name }}</h6>
-          <span>{{ user.profile.post }}</span>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-
-        <li>
-          <a class="dropdown-item d-flex align-items-center" href="">
-            <i class="bi bi-person"></i>
-            <span>My Profile</span>
-          </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-
-        <li>
-          <a class="dropdown-item d-flex align-items-center" href="">
-            <i class="bi bi-gear"></i>
-            <span>Account Settings</span>
-          </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-
-        <li>
-          <a class="dropdown-item d-flex align-items-center" href="">
-            <i class="bi bi-question-circle"></i>
-            <span>Need Help?</span>
-          </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-
-        <!-- Permet de se déconnecter -->
-        <li>
-          <a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Sign Out</span>
-          </a>
-        </li>
-      </ul><!-- End Profile Dropdown Items -->
-    </li><!-- End Profile Nav -->
-  </ul>
-</nav><!-- End Icons Navigation -->
+      </ul>
+    </nav><!-- End Icons Navigation -->
 
 
   </header><!-- End Header -->

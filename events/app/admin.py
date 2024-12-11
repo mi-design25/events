@@ -8,6 +8,7 @@ admin.site.register(Client)
 admin.site.register(Event)
 admin.site.register(Reservation)
 admin.site.register(Comment)
+admin.site.register(Notification)
 
 # Définir l'admin pour UserProfile
 class UserProfileAdmin(admin.ModelAdmin):
